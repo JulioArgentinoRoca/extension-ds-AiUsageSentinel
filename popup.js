@@ -6,16 +6,31 @@ const message= document.getElementById("test")
 const button= document.getElementById("button")
 
 const userList = document.getElementById('userList');
+const resultado = document.getElementById('resultado');
+
+let foundCompany=false;
+let companyId=null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('http://localhost:3000/saludo')
+  fetch('http://localhost:3000/usuarios')
     .then(res => res.json())
     .then(data => {
-      const clave = Object.keys(data)[0];   // "mensaje"
-      const valor = data[clave];            // "Hola desde la API"
+      data.company.forEach(company => {
+        if(company.name === companyUser && company.password === companyPassword){
+          foundCompany=true;
+          companyId=company.id;
+        }
+      });
 
-      document.getElementById('mensaje').textContent = clave;
-      document.getElementById('resultado').textContent = valor;
+      if(foundCompany){
+        data.companyAreas.forEach(area => {
+          if(area.name === AreaUser && area.password === AreaPassword && area.companyId === companyId){
+            
+          }
+        });
+      }
+
+      resultado.textContent = data.company[0].name;
     })
     .catch(err => {
       document.getElementById('resultado').textContent = 'Error: ' + err;
