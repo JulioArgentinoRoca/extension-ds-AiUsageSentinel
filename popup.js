@@ -9,28 +9,38 @@ const userList = document.getElementById('userList');
 const resultado = document.getElementById('resultado');
 
 let foundCompany=false;
+let foundCompanyArea=false;
 let companyId=null;
 
-document.addEventListener('DOMContentLoaded', () => {
+button.addEventListener('click', () => {
   fetch('http://localhost:3000/usuarios')
     .then(res => res.json())
     .then(data => {
       data.company.forEach(company => {
-        if(company.name === companyUser && company.password === companyPassword){
+        if(company.name === companyUser.value && company.password === companyPassword.value){
           foundCompany=true;
           companyId=company.id;
+          
         }
+        console.log(companyUser.value)
+        console.log(companyPassword.value)
       });
 
       if(foundCompany){
         data.companyAreas.forEach(area => {
-          if(area.name === AreaUser && area.password === AreaPassword && area.companyId === companyId){
-            
+          if(area.name === AreaUser.value && area.password === AreaPassword.value && area.companyId === companyId){
+            foundCompanyArea=true;
           }
         });
       }
 
-      resultado.textContent = data.company[0].name;
+      if(foundCompanyArea){
+        window.location.href = "isWorking.html";
+      }
+      
+
+
+      resultado.textContent = "error: data is wrong";
     })
     .catch(err => {
       document.getElementById('resultado').textContent = 'Error: ' + err;
